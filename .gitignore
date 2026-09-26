@@ -1,0 +1,10 @@
+.DS_Store
+Thumbs.db
+.system_generated/
+*.log
+
+# Raw downloaded Framer references
+framer_site.html
+my_framer_site.html
+"My Framer Site_files"
+"My Framer Site.html"
