@@ -341,6 +341,9 @@ class PortfolioApp {
     const closeBtn = document.getElementById('inquiry-close');
     const form = document.getElementById('inquiry-form');
 
+    const formStatus = document.getElementById('form-status');
+    const submitBtn = document.getElementById('inquiry-submit-btn');
+
     openBtns.forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.preventDefault();
@@ -361,11 +364,71 @@ class PortfolioApp {
     }
 
     if (form) {
-      form.addEventListener('submit', (e) => {
+      form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        alert('Thank you for reaching out! I will get back to you soon.');
-        this.inquiryModal.classList.remove('active');
-        form.reset();
+
+        const formData = new FormData(form);
+        const dataObj = Object.fromEntries(formData.entries());
+
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.innerHTML = `
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="animation: spin 1s linear infinite;"><circle cx="12" cy="12" r="10" stroke-opacity="0.25"></circle><path d="M12 2a10 10 0 0 1 10 10"></path></svg>
+            Sending message...
+          `;
+        }
+        if (formStatus) formStatus.innerHTML = '';
+
+        try {
+          const response = await fetch("https://formsubmit.co/ajax/pandeytanish53@gmail.com", {
+            method: "POST",
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            },
+            body: JSON.stringify(dataObj)
+          });
+
+          if (response.ok) {
+            if (formStatus) {
+              formStatus.innerHTML = `
+                <div class="form-success-msg">
+                  ✓ Message sent! It will show up directly in pandeytanish53@gmail.com.
+                </div>
+              `;
+            }
+            if (submitBtn) submitBtn.textContent = 'Sent Successfully ✓';
+
+            setTimeout(() => {
+              form.reset();
+              if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send Message →';
+              }
+              if (formStatus) formStatus.innerHTML = '';
+              this.inquiryModal.classList.remove('active');
+            }, 3000);
+          } else {
+            throw new Error('FormSubmit response not ok');
+          }
+        } catch (err) {
+          console.warn('FormSubmit AJAX fallback to mailto:', err);
+          const subject = encodeURIComponent(`Portfolio Message: ${dataObj.topic || 'Hello'} from ${dataObj.name || 'Visitor'}`);
+          const body = encodeURIComponent(`Hi Tanishq,\n\nName: ${dataObj.name}\nEmail: ${dataObj.email}\nTopic: ${dataObj.topic}\n\nMessage:\n${dataObj.message}`);
+          window.location.href = `mailto:pandeytanish53@gmail.com?subject=${subject}&body=${body}`;
+
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Send Message →';
+          }
+          if (formStatus) {
+            formStatus.innerHTML = `
+              <div class="form-success-msg" style="color: #ffb74d; border-color: rgba(255, 183, 77, 0.4); background: rgba(255, 183, 77, 0.1);">
+                Opening email client to send to pandeytanish53@gmail.com...
+              </div>
+            `;
+          }
+        }
       });
     }
   }

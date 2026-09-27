@@ -99,10 +99,14 @@ Rather than a static grid of thumbnails, the homepage opens with an interactive 
   - Touch: Swipe left or right on mobile/tablet screens.
   - Navigation buttons and backdrop click-to-close.
 
-### 5. Personal Bio, Gear Setup & Contact
+### 5. Personal Bio, Gear Setup & Contact (Direct Email Integration)
 - Narrative statement framing photography as a personal visual diary and way of seeing.
 - **My Gear & Setup**: Highlights everyday camera systems and optical prism filters.
-- **Say Hello Modal**: A clean personal contact modal allowing friends, fellow photographers, or collaborators to connect.
+- **Say Hello Modal (Direct to Inbox)**:
+  - Form submissions are automatically forwarded directly to **`pandeytanish53@gmail.com`** via FormSubmit.
+  - Includes visitor name, email address, topic, and message.
+  - Submits asynchronously via AJAX `fetch()` without reloading the page, displaying an inline loading spinner and success state.
+  - Fallback to native `mailto:` client if network is restricted.
 - Connected directly to Instagram [**@taxisxhqqq**](https://www.instagram.com/taxisxhqqq/) and email [**pandeytanish53@gmail.com**](mailto:pandeytanish53@gmail.com).
 
 ### 6. Full Cross-Device Responsive Design
