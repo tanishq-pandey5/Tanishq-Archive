@@ -393,11 +393,11 @@ class PortfolioApp {
             if (formStatus) {
               formStatus.innerHTML = `
                 <div class="form-success-msg">
-                  ✓ Message sent! It will show up directly in pandeytanish53@gmail.com.
+                  ✓ Your Message is sent! Thank you for reaching out.
                 </div>
               `;
             }
-            if (submitBtn) submitBtn.textContent = 'Sent Successfully ✓';
+            if (submitBtn) submitBtn.textContent = 'Your Message is sent ✓';
 
             setTimeout(() => {
               form.reset();
