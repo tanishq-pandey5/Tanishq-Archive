@@ -72,7 +72,7 @@ export class ScrollFanCards {
 
       card.innerHTML = `
         <div class="fan-card-inner">
-          <img src="${data.thumb || data.image}" alt="${data.title}" loading="eager" draggable="false" />
+          <img src="${data.thumb || data.image}" alt="${data.title}" loading="eager" decoding="async" onerror="this.onerror=null; this.src='${data.image}';" draggable="false" />
           <div class="fan-card-glass"></div>
           <div class="fan-card-border"></div>
           <div class="fan-card-info-peek">

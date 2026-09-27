@@ -213,11 +213,19 @@ class PortfolioApp {
       card.className = 'gallery-card';
       card.dataset.index = index;
 
-      const isPortrait = item.id % 3 === 0;
+      // Eager load first 9 cards (above the fold) to prevent any lazy-load flickering
+      const loadStrategy = index < 9 ? 'eager' : 'lazy';
 
       card.innerHTML = `
-        <div class="gallery-card-img-wrap ${isPortrait ? 'portrait' : ''}">
-          <img src="${item.thumb || item.image}" alt="${item.title}" loading="lazy" />
+        <div class="gallery-card-img-wrap">
+          <img 
+            src="${item.thumb || item.image}" 
+            alt="${item.title}" 
+            loading="${loadStrategy}"
+            decoding="async"
+            onerror="this.onerror=null; this.src='${item.image}';"
+            onload="this.classList.add('loaded')"
+          />
           <div class="gallery-card-overlay"></div>
         </div>
         <div class="gallery-card-info">
